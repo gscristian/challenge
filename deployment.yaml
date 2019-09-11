@@ -1,25 +1,29 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: frontend
   labels:
     app: guestbook
     tier: frontend
-  namespace: web
+  namespace: frontend
 spec:
   ports:
   - port: 80
   selector:
-    app: guestbook-web
+    app: guestbook
     tier: frontend
-    
 ---
-apiVersion: apps/v1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: backend
+  namespace: frontend
 spec:
   selector:
     matchLabels:
@@ -43,4 +47,4 @@ spec:
         - name: GET_HOSTS_FROM
           value: dns
         ports:
-        - containerPort: 8080
+        - containerPort: 80
